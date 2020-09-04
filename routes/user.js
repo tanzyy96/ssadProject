@@ -2,7 +2,6 @@ const route = require("express-promise-router")();
 const bcrypt = require("bcrypt");
 const { User, validate } = require("../db/models/user");
 const _ = require("lodash");
-const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
 
 route.get("/", async (req, res) => {
@@ -29,6 +28,7 @@ route.post("/", async (req, res) => {
       "hashedPassword",
       "email",
       "isTeacher",
+      "isAdmin",
     ])
   );
   res.send(await user.save());
@@ -44,10 +44,30 @@ route.put("/", auth, async (req, res) => {
 });
 
 //TBD code implementation. Need to create admin flag in user schema first
-route.delete("/:username", async (req, res) => {});
+route.delete("/:username", auth, async (req, res) => {
+  const { userName, isAdmin } = req.user;
+
+  if (!isAdmin) {
+    return res.status(404).send("Unauthorized user!");
+  }
+  if (userName == req.params.userName) {
+    return res
+      .status(401)
+      .send("You are not allowed to delete yourself from the database!");
+  }
+
+  const user = await User.findOne({ userName: req.params.username });
+  if (!user) {
+    return res.status(400).send("No such user exist in the database!");
+  }
+
+  const { err, product } = await user.deleteOne();
+  if (!err) return res.send(product);
+});
 
 route.get("/me", auth, async (req, res) => {
-  const user = await User.findById(req.user._id);
+  const { userName } = req.user;
+  const user = await User.findOne({ userName });
   if (!user) return res.status(400).send("No such user!");
   res.send(_.pick(user, ["userName"]));
 });

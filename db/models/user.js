@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
+const { boolean } = require("joi");
 
 const validate = function (user) {
   const schema = Joi.object({
@@ -11,6 +12,7 @@ const validate = function (user) {
     password: Joi.string().alphanum().required(),
     repeatPassword: Joi.ref("password"),
     phoneNumber: Joi.number().max(8).min(8),
+    isAdmin: Joi.bool().optional(),
     email: Joi.string()
       .email()
       .pattern(/.*(ntu\.edu\.sg).*/)
@@ -53,6 +55,10 @@ const userSchema = new mongoose.Schema({
   },
   phoneNumber: Number,
   isTeacher: {
+    type: Boolean,
+    default: false,
+  },
+  isAdmin: {
     type: Boolean,
     default: false,
   },

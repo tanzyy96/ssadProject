@@ -1,17 +1,104 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 const { boolean } = require("joi");
+const jwt = require("jsonwebtoken");
+const _ = require("lodash");
+const config = require("config");
 
 const validate = function (user) {
   const schema = Joi.object({
-    userName: Joi.string().min(1).max(12).alphanum().required(),
+    userName: Joi.string()
+      .min(2)
+      .max(12)
+      .alphanum()
+      .required()
+      .error((errors) => {
+        errors.forEach((err) => {
+          switch (err.code) {
+            case "string.alphanum":
+              err.message = {
+                userName: "Username must only contain alphanumeric characters.",
+              };
+              break;
+            case "string.max":
+              err.message = {
+                userName:
+                  "Username must have at least 2 character and at most 12 characters.",
+              };
+              break;
+            default:
+              err.message = {
+                userName: "Invalid username",
+              };
+              break;
+          }
+        });
+        return errors;
+      }),
     fullName: Joi.string()
       .min(5)
       .pattern(/^[a-zA-Z ]+$/)
-      .required(),
-    password: Joi.string().alphanum().required(),
+      .required()
+      .error((errors) => {
+        errors.forEach((err) => {
+          switch (err.code) {
+            case "string.pattern.base":
+              err.message = {
+                fullName: "No special characters or numbers is allowed.",
+              };
+              break;
+            default:
+              err.message = {
+                fullName:
+                  "Invalid name. Ensure that the length is at least 5 characters.",
+              };
+              break;
+          }
+        });
+        return errors;
+      }),
+    password: Joi.string()
+      .alphanum()
+      .required()
+      .min(8)
+      .error((errors) => {
+        errors.forEach((err) => {
+          switch (err.code) {
+            case "string.alphanum":
+              err.message = {
+                password: "Password can only contain alphanumeric characters.",
+              };
+              break;
+            case "string.min":
+              err.message = {
+                password: "Password must be at least 8 characters long.",
+              };
+              break;
+            default:
+              err.message = {
+                password: "Invalid password.",
+              };
+              break;
+          }
+        });
+        return errors;
+      }),
     repeatPassword: Joi.ref("password"),
-    phoneNumber: Joi.number().max(8).min(8),
+    phoneNumber: Joi.number()
+      .min(80000000)
+      .max(99999999)
+      .error((errors) => {
+        errors.forEach((err) => {
+          switch (err.code) {
+            default:
+              err.message = {
+                phoneNumber: "Invalid Singapore number",
+              };
+              break;
+          }
+        });
+        return errors;
+      }),
     isAdmin: Joi.bool().optional(),
     email: Joi.string()
       .email()
@@ -19,12 +106,16 @@ const validate = function (user) {
       .required()
       .error((errors) => {
         errors.forEach((err) => {
-          switch (err.type) {
-            case "string.regex.base":
-              err.message = "Please input a valid NTU email address.";
+          switch (err.code) {
+            case "string.pattern.base":
+              err.message = {
+                email: "Please input a valid NTU email address.",
+              };
               break;
             default:
-              err.message = "Please input a valid NTU email address.";
+              err.message = {
+                email: "Please input a valid NTU email address.",
+              };
               break;
           }
         });
@@ -33,7 +124,7 @@ const validate = function (user) {
     isTeacher: Joi.bool().optional(),
   }).with("password", "repeatPassword");
 
-  return schema.validate(user);
+  return schema.validate(user, { abortEarly: false });
 };
 
 const userSchema = new mongoose.Schema({
@@ -63,6 +154,13 @@ const userSchema = new mongoose.Schema({
     default: false,
   },
 });
+
+userSchema.methods.generateAuthToken = function () {
+  return jwt.sign(
+    _.pick(this, ["userName", "isTeacher", "isAdmin"]),
+    config.get("jwtPrivateKey")
+  );
+};
 
 const User = mongoose.model("User", userSchema);
 

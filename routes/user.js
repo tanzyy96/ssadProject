@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const { User, validate } = require("../db/models/user");
 const _ = require("lodash");
 const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 
 route.get("/", async (req, res) => {
   let users = await User.find();
@@ -34,8 +35,6 @@ route.post("/", async (req, res) => {
   res.send(await user.save());
 });
 
-//only able to update phone number!
-//user needs to login first.
 route.put("/", auth, async (req, res) => {
   const user = User.findById(req.user._id);
   user.phoneNumber = req.phoneNumber;
@@ -43,16 +42,11 @@ route.put("/", auth, async (req, res) => {
   res.send(user.phoneNumber);
 });
 
-//TBD code implementation. Need to create admin flag in user schema first
-route.delete("/:username", auth, async (req, res) => {
-  const { userName, isAdmin } = req.user;
-
-  if (!isAdmin) {
-    return res.status(404).send("Unauthorized user!");
-  }
-  if (userName == req.params.userName) {
+route.delete("/:username", [auth, admin], async (req, res) => {
+  const { userName } = req.user;
+  if (userName == req.params.username) {
     return res
-      .status(401)
+      .status(403)
       .send("You are not allowed to delete yourself from the database!");
   }
 
@@ -61,8 +55,9 @@ route.delete("/:username", auth, async (req, res) => {
     return res.status(400).send("No such user exist in the database!");
   }
 
-  const { err, product } = await user.deleteOne();
-  if (!err) return res.send(product);
+  const { err } = await user.deleteOne();
+  if (!err)
+    return res.send(`User:${req.params.username} deleted successfully.`);
 });
 
 route.get("/me", auth, async (req, res) => {

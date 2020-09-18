@@ -1,10 +1,14 @@
 const express = require("express");
 const port = process.env.PORT || 3001;
-const users = require("./routes/user");
-const logins = require("./routes/login");
+
 const error = require("./middleware/error");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+
+//below are the routes
+const users = require("./routes/user");
+const logins = require("./routes/login");
+const scores = require("./routes/scores");
 
 module.exports = function (app) {
   app.listen(port, () => {
@@ -15,5 +19,6 @@ module.exports = function (app) {
   app.use(cookieParser());
   app.use("/api/users", users);
   app.use("/api/logins", logins);
+  app.use("/api/scores", scores);
   app.use(error);
 };

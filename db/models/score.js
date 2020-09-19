@@ -12,6 +12,7 @@ const scoreSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    level: Number,
   },
   { strict: false }
 );

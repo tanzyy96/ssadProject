@@ -9,6 +9,7 @@ const cors = require("cors");
 const users = require("./routes/user");
 const logins = require("./routes/login");
 const scores = require("./routes/scores");
+const playerdata = require("./routes/playerData");
 
 module.exports = function (app) {
   app.listen(port, () => {
@@ -20,5 +21,6 @@ module.exports = function (app) {
   app.use("/api/users", users);
   app.use("/api/logins", logins);
   app.use("/api/scores", scores);
+  app.use("/api/playerdata", playerdata);
   app.use(error);
 };

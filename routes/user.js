@@ -8,7 +8,9 @@ const admin = require("../middleware/admin");
 route.get("/", async (req, res) => {
   let users = await User.find();
 
-  res.send(users.map((user) => _.pick(user, ["fullName", "isTeacher"])));
+  res.send(
+    users.map((user) => _.pick(user, ["fullName", "isTeacher", "userName"]))
+  );
 });
 
 route.post("/", async (req, res) => {
@@ -36,10 +38,15 @@ route.post("/", async (req, res) => {
 });
 
 route.put("/", auth, async (req, res) => {
-  const user = User.findById(req.user._id);
-  user.phoneNumber = req.phoneNumber;
-  await user.save();
-  res.send(user.phoneNumber);
+  const userID = await User.findOne({ userName: req.user.userName });
+  const updated = await User.findByIdAndUpdate(
+    userID._id,
+    {
+      $set: { phoneNumber: req.body.phoneNumber },
+    },
+    { useFindAndModify: false }
+  );
+  return res.send("Successfully updated phone number.");
 });
 
 route.delete("/:username", [auth, admin], async (req, res) => {
@@ -64,7 +71,7 @@ route.get("/me", auth, async (req, res) => {
   const { userName } = req.user;
   const user = await User.findOne({ userName });
   if (!user) return res.status(400).send("No such user!");
-  res.send(_.pick(user, ["userName"]));
+  res.send(user);
 });
 
 module.exports = route;

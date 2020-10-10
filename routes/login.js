@@ -11,11 +11,9 @@ route.post("/", async (req, res) => {
 
   if (await bcrypt.compare(password, user.hashedPassword)) {
     const token = user.generateAuthToken();
-    res.setHeader("x-username", userName);
-    return res
-      .cookie("jwtToken", token, { maxAge: 600000, httpOnly: true })
-      .header("access-control-expose-headers", "x-username")
-      .send(token);
+    const data = { token, username: user.userName };
+    res.header("x-token", token);
+    return res.header("access-control-expose-headers", "x-token").send(data);
   } else {
     return res.status(404).send({ password: "Wrong password." });
   }

@@ -1,5 +1,5 @@
 const route = require("express-promise-router")();
-const { isNumber } = require("lodash");
+const mongoose = require("mongoose");
 const _ = require("lodash");
 const Score = require("../db/models/score");
 const { User } = require("../db/models/user");
@@ -102,7 +102,9 @@ route.put("/:username", async (req, res) => {
 
 route.delete("/", async (req, res) => {
   //you need to retrieve the ObjectId of the score document first..
-  const deletedScore = await Score.findByIdAndDelete(req.body._id);
+  const deletedScore = await Score.findByIdAndDelete(
+    mongoose.Types.ObjectId(req.body._id)
+  );
   return res.send(deletedScore);
 });
 

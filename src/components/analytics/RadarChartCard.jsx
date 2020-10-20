@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, Typography, makeStyles } from '@material-ui/core'
 import '../../../node_modules/react-vis/dist/style.css';
-import { RadarChart, CircularGridLines } from 'react-vis';
+// import { RadarChart, CircularGridLines } from 'react-vis';
 import { Chart, Line, Coordinate } from 'bizcharts'
 
 const useStyles = makeStyles((theme) => ({

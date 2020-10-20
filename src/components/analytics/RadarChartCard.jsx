@@ -38,7 +38,7 @@ const data = [
     { item: 'Searching', value: 70 },
 ]
 
-const RadarChartCard = ({ }) => {
+const RadarChartCard = props => {
 
     const classes = useStyles()
 

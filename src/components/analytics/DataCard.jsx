@@ -63,7 +63,7 @@ const DataCard = props => {
         <Card className={classes.root}>
             <CardContent>
                 <div className={classes.container}>
-                    <img src={details.icon} height={40} width={40} color={"blue"} />
+                    <img src={details.icon} height={40} width={40} color={"blue"} alt="icon" />
                     <div className={classes.textContainer}>
                         <Typography variant="h5" style={{ fontWeight: 800 }}>
                             {details.text}

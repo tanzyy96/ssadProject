@@ -3,11 +3,8 @@ import { Card, CardContent, Typography, makeStyles } from '@material-ui/core'
 import '../../../node_modules/react-vis/dist/style.css';
 import {
     Chart,
-    Point,
-    View,
     Tooltip,
     Schema,
-    Axis,
     Interaction,
 } from 'bizcharts';
 import { DataView } from '@antv/data-set';
@@ -52,7 +49,7 @@ dv.transform({
     }
 });
 
-const BoxPlotCard = ({ }) => {
+const BoxPlotCard = props => {
 
     const classes = useStyles()
 

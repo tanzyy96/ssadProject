@@ -1,7 +1,7 @@
 import "./App.css";
 import { Route, BrowserRouter, Switch, Redirect } from "react-router-dom";
 import React from "react";
-import { blue, grey, lightBlue, cyan } from "@material-ui/core/colors";
+import { grey } from "@material-ui/core/colors";
 import {
   createMuiTheme,
   makeStyles,

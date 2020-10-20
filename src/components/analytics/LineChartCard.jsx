@@ -36,7 +36,7 @@ const data = [
     { x: 9, y: 0 }
 ];
 
-const LineChartCard = ({ }) => {
+const LineChartCard = props => {
 
     const classes = useStyles()
 

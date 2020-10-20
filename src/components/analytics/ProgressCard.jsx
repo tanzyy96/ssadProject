@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent, Typography, makeStyles } from '@material-ui/core'
-import { buildStyles, CircularProgressbar } from 'react-circular-progressbar'
+import { CircularProgressbar } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
 
 const useStyles = makeStyles((theme) => ({
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const ProgressCard = ({ }) => {
+const ProgressCard = props => {
 
     const classes = useStyles()
 

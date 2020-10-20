@@ -87,14 +87,14 @@ const Home = () => {
         <div className={classes.container2}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div>
-              <img src={require("../../assets/animatedp1.gif")} />
-              <img src={require("../../assets/animatedp1_left.gif")} />
+              <img src={require("../../assets/animatedp1.gif")} alt="gif" />
+              <img src={require("../../assets/animatedp1_left.gif")} alt="gif" />
             </div>
             <div>
-              <img src={require("../../assets/Grass.png")} />
-              <img src={require("../../assets/Grass.png")} />
-              <img src={require("../../assets/Grass.png")} />
-              <img src={require("../../assets/Grass.png")} />
+              <img src={require("../../assets/Grass.png")} alt="gif" />
+              <img src={require("../../assets/Grass.png")} alt="gif" />
+              <img src={require("../../assets/Grass.png")} alt="gif" />
+              <img src={require("../../assets/Grass.png")} alt="gif" />
             </div>
           </div>
         </div>

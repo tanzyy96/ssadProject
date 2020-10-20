@@ -7,7 +7,7 @@ import {
   Divider,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import NewReleasesRoundedIcon from "@material-ui/icons/NewReleasesRounded";
+// import NewReleasesRoundedIcon from "@material-ui/icons/NewReleasesRounded";
 import { useHistory } from "react-router-dom";
 import getCurrentUser from "./getCurrentUser";
 import getSprite from "./getSprite"
@@ -39,10 +39,10 @@ const TemporaryDrawer = (props) => {
   }
 
   const onClickHandler = (option) => {
-    if (option == "Logout") {
+    if (option === "Logout") {
       localStorage.clear()
       history.push('/')
-    } else if (option == "Profile") {
+    } else if (option === "Profile") {
       history.push('/profile')
       props.toggleDrawer()
     }
@@ -54,7 +54,7 @@ const TemporaryDrawer = (props) => {
         {user &&
           <>
             <div className={classes.profile}>
-              <img width={100} height={100} src={getSprite()} />
+              <img width={100} height={100} src={getSprite()} alt="sprite" />
               <div>{user.userName}</div>
             </div>
             <Divider />

@@ -83,7 +83,7 @@ export default function SignIn() {
           JSON.stringify({ playerName: { str: `${res.data.username}` } })
         );
         let user = {}
-        if (account.userName == "admin" || account.userName == "teacher") {
+        if (account.userName === "admin" || account.userName === "teacher") {
           user = account
         } else {
           user = getCurrentUser()

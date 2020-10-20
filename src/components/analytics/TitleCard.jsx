@@ -35,7 +35,7 @@ const TitleCard = props => {
         <Card className={classes.root}>
             <CardContent>
                 <div className={classes.container}>
-                    <img src={require("./../../assets/link_walk.gif")} height={40} width={35} style={{ paddingRight: 10 }} />
+                    <img src={require("./../../assets/link_walk.gif")} height={40} width={35} style={{ paddingRight: 10 }} alt="walking_link" />
                     <div className={classes.textContainer}>
                         <Typography variant="h5" style={{ fontWeight: 800 }}>
                             Class: Science 2

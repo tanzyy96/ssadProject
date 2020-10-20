@@ -34,7 +34,7 @@ const Entry = props => {
     return (
         <Card className={classes.root}>
             <h1>{props.position}</h1>
-            <img src={require(`../../assets/users/Avatars Set Flat Style-${props.position}.png`)} width={40} height={40} className={classes.img} />
+            <img src={require(`../../assets/users/Avatars Set Flat Style-${props.position}.png`)} width={40} height={40} className={classes.img} alt="user" />
             <Typography className={classes.name}>{props.name}</Typography>
             <div style={{ backgroundColor: "red", color: "white", padding: 10, borderRadius: 4, marginLeft: "auto", marginRight: 40 }}>
                 <b>{Math.floor(Math.random() * 100)}</b>

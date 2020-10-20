@@ -6,7 +6,7 @@ import ProgressCard from '../analytics/ProgressCard'
 import BoxPlotChart from '../analytics/BoxPlotCard'
 import TitleCard from '../analytics/TitleCard'
 import { makeStyles } from "@material-ui/core/styles";
-import { CssBaseline, Container, Grid } from '@material-ui/core'
+import { Container, Grid } from '@material-ui/core'
 
 const UserAnalytics = props => {
 
